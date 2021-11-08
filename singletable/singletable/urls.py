@@ -17,7 +17,16 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
+import userApp.views
+import recipeApp.views
+import purchaseApp.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('user/login/', userApp.views.login, name='login'),
+    path('user/logout/', userApp.views.logout, name='logout'),
+    path('user/signup/', userApp.views.signup, name='signup'),
+    path('user/portal_verify/', userApp.views.portal_verify, name='portal_verify'),
+    path('user/verification_code/', userApp.views.verification_code, name='verification_code'),
+    path('user/new_password/', userApp.views.new_password, name='new_password'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,15 +1,25 @@
 from django.db import models
+from django.contrib.auth.models import User
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
 
 # Create your models here.
-class User(models.Model):
-    userId = models.CharField(max_length=100)
-    userPw = models.CharField(max_length=100)
-    reUserPw = models.CharField(max_length=100)
-    realName = models.CharField(max_length=100)
-    nickName = models.CharField(max_length=100)
-    Email = models.CharField(max_length=100)
-    birthDay = models.CharField(max_length=100)
-    schoolCode = models.CharField(max_length=100)
-    authCode = models.CharField(max_length=100)
-    def __str__(self): 
-        return self.userId
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.CharField(max_length=100, blank=True, null=True)
+    nickname = models.CharField(max_length=20, blank=True, null=True)
+    profile_img = models.ImageField(upload_to='profile/image/%Y/%m', blank=True, null=True)
+    intro = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.nickname
+
+# @receiver(post_save, sender=User)
+# def created_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         if not hasattr(instance, 'Profile'):
+#             Profile.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile.save()

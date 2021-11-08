@@ -1,5 +1,5 @@
 from django.db import models
-from userApp.models import User
+from userApp.models import Profile
 
 # Create your models here.
 class RecipePost(models.Model):
@@ -8,7 +8,7 @@ class RecipePost(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성날짜", null=True)
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name="수정날짜", null=True)
     category = models.CharField(max_length=200)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipe_posts', null=True)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='recipe_posts', null=True)
     like = models.IntegerField(null=True)
     def __str__(self):
         return f'{self.title} | {self.content}'
@@ -16,7 +16,7 @@ class RecipePost(models.Model):
 class RecipeComment(models.Model):
     posts = models.ForeignKey(RecipePost, on_delete=models.CASCADE, related_name='recipe_comments')
     content = models.TextField(verbose_name="댓글")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipe_comments', null=True)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='recipe_comments', null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성날짜", null=True)
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name="수정날짜", null=True)
 
