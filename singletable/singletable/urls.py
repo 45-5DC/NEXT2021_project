@@ -23,9 +23,11 @@ import purchaseApp.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', userApp.views.main, name='main'),
     path('user/login/', userApp.views.login, name='login'),
     path('user/logout/', userApp.views.logout, name='logout'),
     path('user/signup/', userApp.views.signup, name='signup'),
+    path('user/activate/<str:uid64>/<str:token>/', userApp.views.activate, name='activate'),
     path('user/portal_verify/', userApp.views.portal_verify, name='portal_verify'),
     path('user/verification_code/', userApp.views.verification_code, name='verification_code'),
     path('user/new_password/', userApp.views.new_password, name='new_password'),
