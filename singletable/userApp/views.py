@@ -29,7 +29,7 @@ def signup(request):
         # if request.POST['password1'] == request.POST['password2']:
         new_user = User.objects.create_user(
             username = request.POST['username'],
-            password = request.POST['password'],
+            password = request.POST['password'], #['password1']
         )
         new_user.is_active = False
         new_user.save()
@@ -60,7 +60,7 @@ def signup(request):
         #     '</div>'
         # )
 
-        return redirect('main')
+        return redirect('main') # 메일이 전송되었다는 html 만들어서 넘겨줘도 될 듯?
 
     return render(request, 'signup.html')
 
@@ -100,13 +100,13 @@ def activate(request, uid64, token):
         return render(request, 'main.html', {'error': '계정 활성화 오류'})
     return
     
-def portal_verify(request):
+# def portal_verify(request):
 
-    return render(request, 'user/portal_verify.html')
+#     return render(request, 'user/portal_verify.html')
 
-def verification_code(request):
+# def verification_code(request):
 
-    return render(request, 'user/verification_code.html')
+#     return render(request, 'user/verification_code.html')
 
 def new_password(request):
 
