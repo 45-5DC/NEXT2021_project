@@ -13,10 +13,11 @@ from .tokens import account_activation_token
 
 # Create your views here.
 def main(request):
-    recipes = RecipePost.objects.all()
+    recent_recipes = RecipePost.objects.all().order_by('-created_at')
+    popular_recipes = RecipePost.objects.all().order_by('-like')
     purchases = PurchasePost.objects.all()
 
-    return render(request, 'main.html', {'recipes': recipes, 'purchases': purchases})
+    return render(request, 'main.html', {'recent_recipes': recent_recipes, 'popular_recipes': popular_recipes, 'purchases': purchases})
 
 def signup(request):
     if (request.method == 'POST'):
