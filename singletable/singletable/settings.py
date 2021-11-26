@@ -39,7 +39,7 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -52,9 +52,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'six',
-    'recipeApp',
-    'purchaseApp',
-    'userApp',
+    'recipeApp.apps.RecipeappConfig',
+    'purchaseApp.apps.PurchaseappConfig',
+    'userApp.apps.UserappConfig',
 ]
 
 MIDDLEWARE = [
@@ -91,12 +91,16 @@ WSGI_APPLICATION = 'singletable.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# 기본 DB
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# DB변경
+DATABASES = get_secret("DATABASES")
 
 
 # Password validation

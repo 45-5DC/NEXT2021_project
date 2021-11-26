@@ -24,3 +24,10 @@ class RecipeComment(models.Model):
 class RecipeImages(models.Model):
     post = models.ForeignKey(RecipePost, on_delete=models.CASCADE, related_name='recipe_images')
     image = models.ImageField(upload_to='singletable/image/%Y/%m', blank=True)
+
+# # 이미지-컨텐츠 연결 위한 새 이미지 모델
+# # (사용 시) 위의 이름 같은 모델과 교체 + RecipePost에서 content 빼기
+# class RecipeImages(models.Model):
+#     post = models.ForeignKey(RecipePost, on_delete=models.CASCADE, related_name='recipe_images')
+#     image = models.ImageField(upload_to='singletable/image/%Y/%m', blank=True)
+#     content = models.TextField(max_length=200, null=True, verbose_name="내용")
