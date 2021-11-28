@@ -226,16 +226,42 @@ def update_recipepost(request, recipe_post_pk):
             # like = ,
         )
 
-        images = request.FILES.getlist('image')
-        contents = request.POST.getlist('content')
-        for i in range(len(images)):
-            recipe_post.recipe_images.all().update(
-            # RecipeImages.objects.filter(post.pk=recipe_post_pk).update(
-                post = recipe_post,
-                image = images[i],
-                content = contents[i],
-            )
+        new_images = request.FILES.getlist('image')
+        new_contents = request.POST.getlist('content')
+        recipe_imagecontent = recipe_post.recipe_images.all()
+        # recipe_imagecontent = RecipeImages.objects.filter(post.pk=recipe_post_pk)
+        
+        for i in range(len(new_images)):
+        # 기존 게시물보다 사진-내용 늘 경우...
+            if i > len(recipe_imagecontent)-1:
+                RecipePost.objects.create(
+                    post = recipe_post,
+                    image = new_images[i],
+                    content = new_contents[i],
+                )
+
+        # 메인 수정 부분
+            else:
+                recipe_imagecontent[i].post = recipe_post
+                recipe_imagecontent[i].image = new_images[i]
+                recipe_imagecontent[i].content = new_contents[i]
+                recipe_imagecontent[i].save()
+
+        # 기존 게시물보다 사진-내용 줄 경우...
+        if len(new_images) < len(recipe_imagecontent):
+            recipe_imagecontent[len(new_images)-1:].delete()
         return
     return
 
 # 기존 html에서 <input value="{{post.title}}" /> 이런 식으로 불러오던 기존 포스트의 정보는 프론트에서?
+
+# 이미지 업데이트 기존
+        # images = request.FILES.getlist('image')
+        # contents = request.POST.getlist('content')
+        # for i in range(len(images)):
+        #     recipe_post.recipe_images.all().update(
+        #     # RecipeImages.objects.filter(post.pk=recipe_post_pk).update(
+        #         post = recipe_post,
+        #         image = images[i],
+        #         content = contents[i],
+        #     )
