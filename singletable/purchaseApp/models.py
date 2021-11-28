@@ -10,13 +10,14 @@ class PurchasePost(models.Model):
     category = models.CharField(max_length=200)
     image = models.ImageField(blank=True, upload_to='purchase/image/%Y/%m')
     link = models.TextField(null=True, verbose_name="구매링크")
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='purchase_posts', null=True)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='purchase_posts', null=True)
     def __str__(self):
-        return f'{self.title} | {self.content}'
+        return self.title
+        # return f'{self.title} | {self.content}'
 
 class PurchaseComment(models.Model):
-    posts = models.ForeignKey(PurchasePost, on_delete=models.CASCADE, related_name='purchase_comments')
+    posts = models.ForeignKey(PurchasePost, on_delete=models.CASCADE, related_name='purchase_comments', null=True)
     content = models.TextField(verbose_name="댓글")
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='purchase_comments', null=True)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='purchase_comments', null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성날짜", null=True)
     updated_at = models.DateTimeField(auto_now_add=True, verbose_name="수정날짜", null=True)
