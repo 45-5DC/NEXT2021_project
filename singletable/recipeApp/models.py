@@ -9,7 +9,7 @@ class RecipePost(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name="수정날짜", null=True)
     category = models.CharField(max_length=200)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='recipe_posts', null=True)
-    like = models.IntegerField(null=True)
+    like = models.IntegerField(null=True, default=0)
     def __str__(self):
         return self.title
         # return f'{self.title} | {self.content}'
