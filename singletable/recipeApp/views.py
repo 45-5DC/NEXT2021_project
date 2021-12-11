@@ -61,32 +61,32 @@ def createRecipePost(request):
         return
     return
 
-# 이미지-컨텐츠 연결 연습
-images = []
-raw_images = request.FILES.getlist('image')
-for i in range(len(raw_images)):
-    temp_image = {
-        'index': i,
-        'image': raw_images[i]
-    } # ~~ 프론트에서 이런식으로 보낸다고 하신건가?
-    images.append(temp_image)
+# # 이미지-컨텐츠 연결 연습
+# images = []
+# raw_images = request.FILES.getlist('image')
+# for i in range(len(raw_images)):
+#     temp_image = {
+#         'index': i,
+#         'image': raw_images[i]
+#     } # ~~ 프론트에서 이런식으로 보낸다고 하신건가?
+#     images.append(temp_image)
 
-contents = []
-raw_contents = request.POST.getlist('content')
-for i in range(len(raw_contents)):
-    temp_content = {
-        'index': i,
-        'content': raw_contents[i]
-    }
-    contents.append(temp_content)
+# contents = []
+# raw_contents = request.POST.getlist('content')
+# for i in range(len(raw_contents)):
+#     temp_content = {
+#         'index': i,
+#         'content': raw_contents[i]
+#     }
+#     contents.append(temp_content)
 
-for i in range(len(images)):
-    new_recipe_imagecontent = RecipeImages.objects.create(
-        post = new_recipe_post,
-        image = filter((lambda x: x['index'] == i), images)['image']
-        content = filter((lambda x: x['index'] == i), contents)['content']
-    )
-# 모델의 형태를 아예 [{'index': 1, image: image1}, ...] 이런식으로 바꿔야하나?? 프론트로 다시 보낼 땐 어떡하지?
+# for i in range(len(images)):
+#     new_recipe_imagecontent = RecipeImages.objects.create(
+#         post = new_recipe_post,
+#         image = filter((lambda x: x['index'] == i), images)['image'],
+#         content = filter((lambda x: x['index'] == i), contents)['content']
+#     )
+# # 모델의 형태를 아예 [{'index': 1, image: image1}, ...] 이런식으로 바꿔야하나?? 프론트로 다시 보낼 땐 어떡하지?
 
 
 def sendRecipePostDetail(request, recipe_post_pk):

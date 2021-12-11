@@ -23,7 +23,7 @@ import purchaseApp.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', userApp.views.main, name='main'),
+    path('', userApp.views.main),
     path('user/login/', userApp.views.login, name='login'),
     path('user/logout/', userApp.views.logout, name='logout'),
     path('user/signup/', userApp.views.signup, name='signup'),

@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect #, HttpResponse
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from userApp.models import Profile
 from django.contrib import auth
+from recipeApp.models import RecipePost, RecipeComment, RecipeImages
+from purchaseApp.models import PurchasePost, PurchaseComment
+import json
 
 # 이메일 인증 관련
 from django.contrib.sites.shortcuts import get_current_site
@@ -16,16 +20,25 @@ def main(request):
     recent_recipes = RecipePost.objects.all().order_by('-created_at')
     popular_recipes = RecipePost.objects.all().order_by('-like')
     purchases = PurchasePost.objects.all()
+    print('a')
+    print(list(recent_recipes.values()))
+    test = list(recent_recipes.values())[0].pop('created_at', 'updated_at')
+    temp = {
+        "recent_recipes": test,
+        "popular_recipes": list(popular_recipes.values()),
+        "purchases": list(purchases.values()),
+    }
+    returnjson = json.dumps(temp)
 
-    return render(request, 'main.html', {'recent_recipes': recent_recipes, 'popular_recipes': popular_recipes, 'purchases': purchases})
+    return HttpResponse(returnjson, content_type=u"application/json; charset=utf-8", status=200)
 
 def signup(request):
     if (request.method == 'POST'):
         found_user = User.objects.filter(username=request.POST['username'])
         if (len(found_user) > 0):
             error = '같은 아이디가 이미 존재합니다.'
-            return render(request, 'signup.html', {
-                'error': error})
+            return #render(request, 'signup.html', {
+               # 'error': error})
         
         # if request.POST['password1'] == request.POST['password2']:
         new_user = User.objects.create_user(
@@ -61,9 +74,9 @@ def signup(request):
         #     '</div>'
         # )
 
-        return redirect('main') # 메일이 전송되었다는 html 만들어서 넘겨줘도 될 듯?
+        return #redirect('main') # 메일이 전송되었다는 html 만들어서 넘겨줘도 될 듯?
 
-    return render(request, 'signup.html')
+    return #render(request, 'signup.html')
 
 def login(request):
     if (request.method == 'POST'):
@@ -74,18 +87,18 @@ def login(request):
 
         if (found_user is None):
             error = '아이디 또는 비밀번호가 틀렸습니다.'
-            return render(request, 'login.html', {
-                'error': error
-                })
+            return #render(request, 'login.html', {
+                # 'error': error
+                # })
             auth.login(request, found_user)
-            return redirect('main')
+            return #redirect('main')
 
-    return render(request, 'login.html')
+    return #render(request, 'login.html')
 
 def logout(request):
     auth.logout(request)
 
-    return redirect('main')
+    return #redirect('main')
 
 def activate(request, uid64, token):
     uid = force_text(urlsafe_base64_decode(uid64))
